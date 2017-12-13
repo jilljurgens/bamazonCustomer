@@ -56,7 +56,7 @@ function pickProduct(answer) {
           connection.query("SELECT item_id,product_name,price,stock_quantity FROM products WHERE ?",
             {item_id: answer.item},  function(err, res) {
 
-              console.log("count " + answer.count);
+              //console.log("count " + answer.count);
 
               if (parseInt(answer.count) > res[0].stock_quantity) {
 
