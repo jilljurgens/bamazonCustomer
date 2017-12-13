@@ -1,8 +1,9 @@
 //Thursday phone
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require('cli-table');
 
-// create the connection information for the sql database
+
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -16,28 +17,28 @@ connection.connect(function(err) {
   showProducts();
   });
 
-
+//Show the table with products for consumer to view
 function showProducts(answer) {
       var query = "SELECT item_id,product_name,price,stock_quantity FROM products";
       connection.query(query,  function(err, res) {
-        for (var i = 0; i < res.length; i++) {
-          console.log(
-            "ID: " +
-              res[i].item_id +
-              " || Product: " +
-              res[i].product_name +
-              " || Price: " +
-              res[i].price +   
-              " || Quantity Available: " +
-              res[i].stock_quantity
-          );
-        }
-       
-      })
+        var theDisplayTable = new Table({
+          head: ['Item ID', 'Product Name', 'Price', 'Quantity'],
+
+            colWidths: [10, 30, 10, 14]
+          });
+
+          for (var i = 0; i < res.length; i++) {
+             theDisplayTable.push(
+              [res[i].item_id, res[i].product_name, res[i].price, res[i].stock_quantity]
+              );
+           }
+              console.log(theDisplayTable.toString());
+
 
         pickProduct();
-};
-
+      });
+}
+//Pick a product and how many
 function pickProduct(answer) {
     inquirer.prompt([
       {
@@ -58,7 +59,7 @@ function pickProduct(answer) {
               console.log("count " + answer.count);
 
               if (parseInt(answer.count) > res[0].stock_quantity) {
-                //console.log(parseInt(answer.stock_quantity));
+
                 console.log("sorry, there are only " + res[0].stock_quantity + " left");
                 pickProduct();
 
@@ -80,19 +81,20 @@ function pickProduct(answer) {
                         ],
                         function(error) {
                           if (error) throw err;
-                          console.log("Inventory updated. There are  " + quantityLeft + " left");
-                          pickProduct();
-                        });
+                         
+                         
+                        }); 
+                      console.log("Inventory updated. There are  " + quantityLeft + " left"); 
+                      showProducts();
                }
-                          //return answer;  
+
 
             })
       });
-      // return answer;
-  //    howMany();
+
 };      
 
-//
+
 
               
                 
