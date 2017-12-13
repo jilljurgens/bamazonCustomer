@@ -20,3 +20,5 @@ However, if the store *does* have enough of the product, It will fulfill the use
 
 **FUNCTIONALITY**  
 [View video of working app here](https://drive.google.com/file/d/1kNMZyN8bVI9k4zuJZfquy2MBP_vk1Dwd/view)
+
+![Screen Shot](Capture.PNG)
